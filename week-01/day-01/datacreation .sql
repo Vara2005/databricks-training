@@ -18,3 +18,24 @@ INSERT INTO Employee (emp_id, name, age, salary, department_id, hire_date) VALUE
 INSERT INTO Project (project_id, name, department_id) VALUES
 (8, 'Project Theta', 1),
 (9, 'Project Iota', NULL);  -- Project without a department
+SELECT * FROM Department WHERE name = 'IT';
+select * from Employee where name like '%e';
+SELECT * FROM Employee WHERE name LIKE '%a%';
+SELECT * FROM Employee WHERE length(name)=9;
+SELECT * FROM Employee WHERE name LIKE '_o%';
+SELECT * FROM Employee WHERE year(hire_date) = 2020;
+SELECT * FROM Employee WHERE month(hire_date) =1;
+SELECT * FROM Employee WHERE year(hire_date)<2019;
+SELECT * FROM Employee WHERE hire_date>'2021-03-01';
+SELECT * FROM Employee WHERE Year(hire_date) >= Year(CURRENT_DATE) - 2;
+SELECT sum(salary) as TOTAL_SALARY FROM Employee;
+SELECT avg(salary) as AVG_SALARY FROM Employee;
+SELECT min(salary) as MIN_SALARY FROM Employee;
+SELECT Count(*) as NUMBER_OF_EMPLOYEES FROM Employee GROUP BY department_id;
+SELECT avg(salary) From Employee GROUP BY department_id;
+SELECT sum(salary) From Employee GROUP BY department_id;
+SELECT avg(age) From Employee GROUP BY department_id;
+SELECT max(salary) FROM Employee GROUP BY department_id;
+SELECT d.name FROM Department d 
+JOIN Employee e ON d.department_id = e.department_id
+GROUP BY d.name HAVING COUNT(e.emp_id) > 1;
