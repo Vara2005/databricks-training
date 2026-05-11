@@ -39,3 +39,16 @@ SELECT max(salary) FROM Employee GROUP BY department_id;
 SELECT d.name FROM Department d 
 JOIN Employee e ON d.department_id = e.department_id
 GROUP BY d.name HAVING COUNT(e.emp_id) > 1;
+SELECT d.name FROM Department d JOIN Employee e ON d.department_id=e.department_id GROUP BY d.name Having avg(e.salary)>=55000;
+SELECT d.name FROM Department d JOIN Employee e ON d.department_id=e.department_id GROUP BY d.name Having avg(e.salary)<100000;
+SELECT d.name FROM Department d JOIN Employee e ON d.department_id=e.department_id GROUP BY d.name Having avg(e.salary)>=70000;
+SELECT name FROM Employee ORDER BY salary ASC;
+SELECT name FROM Employee ORDER BY age ASC;
+SELECT name FROM Employee ORDER BY hire_date ASC;
+SELECT e.name, d.name AS dept_name, e.salary
+FROM Employee e
+JOIN Department d ON e.department_id = d.department_id
+ORDER BY d.name ASC, e.salary ASC;
+SELECT d.name ,sum(e.salary) as total_payroll FROM Employee e 
+JOIN Department d ON e.department_id=d.department_id 
+GROUP BY d.name ORDER BY total_payroll,d.name;  
