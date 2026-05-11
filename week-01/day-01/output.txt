@@ -422,6 +422,175 @@ There are no results to be displayed.
 
 ---
 
+**Schema (MySQL v5.7)**
+
+    -- Create Department table
+    CREATE TABLE Department (
+        department_id INT PRIMARY KEY,
+        name VARCHAR(50) NOT NULL
+    );
+    
+    -- Create Employee table
+    CREATE TABLE Employee (
+        emp_id INT PRIMARY KEY,
+        name VARCHAR(100) NOT NULL,
+        age INT,
+        salary DECIMAL(10, 2),
+        department_id INT,
+        hire_date DATE,
+        FOREIGN KEY (department_id) REFERENCES Department(department_id)
+    );
+    
+    -- Create Project table
+    CREATE TABLE Project (
+        project_id INT PRIMARY KEY,
+        name VARCHAR(100) NOT NULL,
+        department_id INT,
+        FOREIGN KEY (department_id) REFERENCES Department(department_id)
+    );
+    
+    -- Insert data into Department table
+    INSERT INTO Department (department_id, name) VALUES
+    (1, 'IT'),
+    (2, 'HR'),
+    (3, 'Finance'),
+    (4, 'Marketing');
+    
+    -- Insert data into Employee table
+    INSERT INTO Employee (emp_id, name, age, salary, department_id, hire_date) VALUES
+    (1, 'John Doe', 28, 50000.00, 1, '2020-01-15'),
+    (2, 'Jane Smith', 34, 60000.00, 2, '2019-07-23'),
+    (3, 'Bob Brown', 45, 80000.00, 1, '2018-02-12'),
+    (4, 'Alice Blue', 25, 45000.00, 3, '2021-03-22'),
+    (5, 'Charlie P.', 29, 50000.00, 2, '2019-12-01'),
+    (6, 'David Green', 38, 70000.00, 4, '2022-05-18'),
+    (7, 'Eve Black', 40, 55000.00, 3, '2021-08-30');
+    
+    -- Insert data into Project table
+    INSERT INTO Project (project_id, name, department_id) VALUES
+    (1, 'Project Alpha', 1),
+    (2, 'Project Beta', 2),
+    (3, 'Project Gamma', 1),
+    (4, 'Project Delta', 3),
+    (5, 'Project Epsilon', 4),
+    (6, 'Project Zeta', 4),
+    (7, 'Project Eta', 3);
+    
+    
+    
+
+---
+
+**Query #1**
+
+    SELECT d.name FROM Department d JOIN Employee e ON d.department_id=e.department_id GROUP BY d.name Having avg(e.salary)>=55000;
+
+| name      |
+| --------- |
+| HR        |
+| IT        |
+| Marketing |
+
+---
+**Query #2**
+
+    SELECT d.name FROM Department d JOIN Employee e ON d.department_id=e.department_id GROUP BY d.name Having avg(e.salary)<100000;
+
+| name      |
+| --------- |
+| Finance   |
+| HR        |
+| IT        |
+| Marketing |
+
+---
+**Query #3**
+
+    SELECT d.name FROM Department d JOIN Employee e ON d.department_id=e.department_id GROUP BY d.name Having avg(e.salary)>=70000;
+
+| name      |
+| --------- |
+| Marketing |
+
+---
+**Query #4**
+
+    SELECT name FROM Employee ORDER BY salary ASC;
+
+| name        |
+| ----------- |
+| Alice Blue  |
+| John Doe    |
+| Charlie P.  |
+| Eve Black   |
+| Jane Smith  |
+| David Green |
+| Bob Brown   |
+
+---
+**Query #5**
+
+    SELECT name FROM Employee ORDER BY age ASC;
+
+| name        |
+| ----------- |
+| Alice Blue  |
+| John Doe    |
+| Charlie P.  |
+| Jane Smith  |
+| David Green |
+| Eve Black   |
+| Bob Brown   |
+
+---
+**Query #6**
+
+    SELECT name FROM Employee ORDER BY hire_date ASC;
+
+| name        |
+| ----------- |
+| Bob Brown   |
+| Jane Smith  |
+| Charlie P.  |
+| John Doe    |
+| Alice Blue  |
+| Eve Black   |
+| David Green |
+
+---
+**Query #7**
+
+    SELECT e.name, d.name AS dept_name, e.salary
+    FROM Employee e
+    JOIN Department d ON e.department_id = d.department_id
+    ORDER BY d.name ASC, e.salary ASC;
+
+| name        | dept_name | salary  |
+| ----------- | --------- | ------- |
+| Alice Blue  | Finance   | 45000.0 |
+| Eve Black   | Finance   | 55000.0 |
+| Charlie P.  | HR        | 50000.0 |
+| Jane Smith  | HR        | 60000.0 |
+| John Doe    | IT        | 50000.0 |
+| Bob Brown   | IT        | 80000.0 |
+| David Green | Marketing | 70000.0 |
+
+---
+**Query #8**
+
+    SELECT d.name ,sum(e.salary) as total_payroll FROM Employee e JOIN Department d ON e.department_id=d.department_id GROUP BY d.name ORDER BY total_payroll,d.name;
+
+| name      | total_payroll |
+| --------- | ------------- |
+| Marketing | 70000.0       |
+| Finance   | 100000.0      |
+| HR        | 110000.0      |
+| IT        | 130000.0      |
+
+---
+
+[View on DB Fiddle](https://www.db-fiddle.com/)
+
 [View on DB Fiddle](https://www.db-fiddle.com/)
 
 [View on DB Fiddle](https://www.db-fiddle.com/)
